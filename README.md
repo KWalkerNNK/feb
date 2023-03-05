@@ -55,7 +55,7 @@ Edit My Info
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Description
+## Information
 
 [K-Walker](https://www.facebook.com/KWalkerNNK) Please message me if you have any questions.
 
