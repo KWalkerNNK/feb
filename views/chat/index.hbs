@@ -1,50 +1,9 @@
-<style>
-  a {
-    text-decoration: none;
-  }
-
-  .mask-custom {
-    background: rgba(24, 24, 16, .2);
-    border-radius: 2em;
-    backdrop-filter: blur(15px);
-    border: 2px solid rgba(255, 255, 255, 0.05);
-    background-clip: padding-box;
-    box-shadow: 10px 10px 10px rgba(46, 54, 68, 0.03);
-  }
-
-  .scrollbar-ripe-malinka::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-    background-color: #F5F5F5;
-    border-radius: 10px;
-  }
-
-  .scrollbar-ripe-malinka::-webkit-scrollbar {
-    width: 10px;
-    background-color: #F5F5F5;
-    border-radius: 10px;
-  }
-
-  .scrollbar-ripe-malinka::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-    background-image: -webkit-linear-gradient(330deg, #f093fb 0%, #f5576c 100%);
-    background-image: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
-  }
-
-  .example-1 {
-    position: relative;
-    overflow-y: scroll;
-    height: 480px;
-    border-radius: 10px;
-  }
-</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/chat.css">
 <section class="gradient-custom">
   <div class="container py-5">
-
     <div class="row">
-
       <div class="col-md-6 col-lg-5 col-xl-5 mb-4 mb-md-0">
-
         <h5 class="font-weight-bold mb-3 text-center text-white">Chat</h5>
         <div style="display: flex">
           <div class="input-group">
@@ -57,7 +16,6 @@
                 <i class="fas fa-search"></i>
               </button>
             </div>
-
           </div>
           <form class="input-group" id="create-group" action="/group/create/" method="post">
             <div class="input-group-prepend">
@@ -71,26 +29,9 @@
             </div>
           </form>
         </div>
-
-        <script>
-          const userId = document.cookie.split(';')[0].split('=')[1];
-          const createGroup = document.getElementById('create-group').action = `/group/create/${userId}`;
-          $("create-group").submit(function (event) {
-            event.preventDefault();
-
-            var $form = $(this),
-              term = $form.find("input[name='title']").val(),
-              url = $form.attr("action");
-
-            var posting = $.post(url, { s: term });
-          });
-        </script>
-
-
         <div class="card mask-custom">
           <div class="card rounded example-1 scrollbar-ripe-malinka gradient-custom">
             <div class="card-body">
-
               <ul class="list-unstyled mb-0" id="members">
                 {{#if conversation}}
                 {{#each conversation}}
@@ -99,7 +40,7 @@
                     class="d-flex justify-content-between link-light">
                     <div class="d-flex flex-row">
                       <img
-                        src="https://scontent.fdad1-4.fna.fbcdn.net/v/t39.30808-6/323870062_921503352354013_4582459388668646145_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=ynUzNDc11BUAX86weUU&_nc_ht=scontent.fdad1-4.fna&oh=00_AfAcixFx3ikoyPCcQtYn1-aImEff9-aHpjQ4rbheZeg4Bg&oe=63F7E6AF"
+                        src="/img/group.webp"
                         alt="avatar" class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
                       <div class="pt-1">
                         <p class="fw-bold mb-0">{{this.title}}</p>
@@ -117,113 +58,18 @@
                 <h1>Let's create a new chat group!</h1><br />
                 <h2>💌</h2>
                 {{/if}}
-
-                {{!-- <li class="p-2 border-bottom" style="border-bottom: 1px solid rgba(255,255,255,.3) !important;">
-                  <a href="#!" class="d-flex justify-content-between link-light">
-                    <div class="d-flex flex-row">
-                      <img src="avatar-1" alt="avatar"
-                        class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
-                      <div class="pt-1">
-                        <p class="fw-bold mb-0">Danny Smith</p>
-                        <p class="small text-white">Lorem ipsum dolor sit.</p>
-                      </div>
-                    </div>
-                    <div class="pt-1">
-                      <p class="small text-white mb-1">5 mins ago</p>
-                    </div>
-                  </a>
-                </li>
-                <li class="p-2 border-bottom" style="border-bottom: 1px solid rgba(255,255,255,.3) !important;">
-                  <a href="#!" class="d-flex justify-content-between link-light">
-                    <div class="d-flex flex-row">
-                      <img src="avatar-2" alt="avatar"
-                        class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
-                      <div class="pt-1">
-                        <p class="fw-bold mb-0">Alex Steward</p>
-                        <p class="small text-white">Lorem ipsum dolor sit.</p>
-                      </div>
-                    </div>
-                    <div class="pt-1">
-                      <p class="small text-white mb-1">Yesterday</p>
-                    </div>
-                  </a>
-                </li>
-                <li class="p-2 border-bottom" style="border-bottom: 1px solid rgba(255,255,255,.3) !important;">
-                  <a href="#!" class="d-flex justify-content-between link-light">
-                    <div class="d-flex flex-row">
-                      <img src="avatar-3" alt="avatar"
-                        class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
-                      <div class="pt-1">
-                        <p class="fw-bold mb-0">Ashley Olsen</p>
-                        <p class="small text-white">Lorem ipsum dolor sit.</p>
-                      </div>
-                    </div>
-                    <div class="pt-1">
-                      <p class="small text-white mb-1">Yesterday</p>
-                    </div>
-                  </a>
-                </li>
-                <li class="p-2 border-bottom" style="border-bottom: 1px solid rgba(255,255,255,.3) !important;">
-                  <a href="#!" class="d-flex justify-content-between link-light">
-                    <div class="d-flex flex-row">
-                      <img src="avatar-4" alt="avatar"
-                        class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
-                      <div class="pt-1">
-                        <p class="fw-bold mb-0">Kate Moss</p>
-                        <p class="small text-white">Lorem ipsum dolor sit.</p>
-                      </div>
-                    </div>
-                    <div class="pt-1">
-                      <p class="small text-white mb-1">Yesterday</p>
-                    </div>
-                  </a>
-                </li>
-                <li class="p-2 border-bottom" style="border-bottom: 1px solid rgba(255,255,255,.3) !important;">
-                  <a href="#!" class="d-flex justify-content-between link-light">
-                    <div class="d-flex flex-row">
-                      <img src="avatar-5" alt="avatar"
-                        class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
-                      <div class="pt-1">
-                        <p class="fw-bold mb-0">Lara Croft</p>
-                        <p class="small text-white">Lorem ipsum dolor sit.</p>
-                      </div>
-                    </div>
-                    <div class="pt-1">
-                      <p class="small text-white mb-1">Yesterday</p>
-                    </div>
-                  </a>
-                </li>
-                <li class="p-2">
-                  <a href="#!" class="d-flex justify-content-between link-light">
-                    <div class="d-flex flex-row">
-                      <img src="avatar-6" alt="avatar"
-                        class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
-                      <div class="pt-1">
-                        <p class="fw-bold mb-0">Brad Pitt</p>
-                        <p class="small text-white">Lorem ipsum dolor sit.</p>
-                      </div>
-                    </div>
-                    <div class="pt-1">
-                      <p class="small text-white mb-1">5 mins ago</p>
-                      <span class="text-white float-end"><i class="fas fa-check" aria-hidden="true"></i></span>
-                    </div>
-                  </a>
-                </li> --}}
               </ul>
-
             </div>
           </div>
         </div>
-
       </div>
-
       <div class="col-md-6 col-lg-7 col-xl-7">
         <div class="rounded example-1 scrollbar-ripe-malinka gradient-custom">
-
           <ul class="list-unstyled text-white" id="messages">
             {{#if messages}}
-            <title>Group: {{this.conversation.title}}</title>
             {{#each messages}}
+            <title>Group: {{this.conversation.title}}</title>
+            {{#compare this.senderId.id ../currentId}}
             <li class="d-flex justify-content-between mb-4">
               <div class="card mask-custom w-100">
                 <div class="card-header d-flex justify-content-between p-3"
@@ -238,87 +84,37 @@
                   </p>
                 </div>
               </div>
-              <img
-                src="https://scontent.fdad1-4.fna.fbcdn.net/v/t39.30808-6/323870062_921503352354013_4582459388668646145_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=ynUzNDc11BUAX86weUU&_nc_ht=scontent.fdad1-4.fna&oh=00_AfAcixFx3ikoyPCcQtYn1-aImEff9-aHpjQ4rbheZeg4Bg&oe=63F7E6AF"
-                alt="avatar" class="rounded-circle d-flex align-self-start ms-3 shadow-1-strong" width="60">
+              <a href="/profile/{{this.senderId.id}}"><img
+                  src="/img/user.png" alt="avatar"
+                  class="rounded-circle d-flex align-self-start ms-3 shadow-1-strong" width="60"></a>
             </li>
+            {{else}}
+            <li class="d-flex justify-content-between mb-4">
+              <a href="/profile/{{this.senderId.id}}"><img src="/img/user.png"
+                  alt="avatar" class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60"></a>
+              <div class="card mask-custom w-100">
+                <div class="card-header d-flex justify-content-between p-3"
+                  style="border-bottom: 1px solid rgba(255,255,255,.3);">
+                  <p class="fw-bold mb-0">{{this.senderId.fullName}}</p>
+                  <p class="text-light small mb-0"><i class="far fa-clock"></i>{{this.CreatedAt}}</p>
+                </div>
+                <div class="card-body">
+                  <p class="mb-0">
+                    {{this.message}}
+                  </p>
+                </div>
+              </div>
+            </li>
+            {{/compare}}
             {{/each}}
             {{else}}
             <title>Welcome to Feb</title>
-            <li class="d-flex justify-content-between mb-4">
-              <div class="card mask-custom w-100">
-                <div class="card-header d-flex justify-content-between p-3"
-                  style="border-bottom: 1px solid rgba(255,255,255,.3);">
-                  <p class="fw-bold mb-0">Me</p>
-                  <p class="text-light small mb-0"><i class="far fa-clock"></i> 2 min ago</p>
-                </div>
-                <div class="card-body">
-                  <p class="mb-0">
-                    What do I have to do now?
-                  </p>
-                </div>
-              </div>
-              <img
-                src="https://scontent.fdad1-4.fna.fbcdn.net/v/t39.30808-6/323870062_921503352354013_4582459388668646145_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=ynUzNDc11BUAX86weUU&_nc_ht=scontent.fdad1-4.fna&oh=00_AfAcixFx3ikoyPCcQtYn1-aImEff9-aHpjQ4rbheZeg4Bg&oe=63F7E6AF"
-                alt="avatar" class="rounded-circle d-flex align-self-start ms-3 shadow-1-strong" width="60">
-            </li>
-            <li class="d-flex justify-content-between mb-4">
-              <img
-                src="https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-6/247740576_567274137882176_7668557699571032372_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=174925&_nc_ohc=lYXRF-tr6HwAX-uCD4V&_nc_ht=scontent.fdad1-2.fna&oh=00_AfBq31_KxRTTCjjszyTm9zbtP3QC6yGrE8ebJ6wHhadedA&oe=63F8C07A"
-                alt="avatar" class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60">
-              <div class="card mask-custom">
-                <div class="card-header d-flex justify-content-between p-3"
-                  style="border-bottom: 1px solid rgba(255,255,255,.3);">
-                  <p class="fw-bold mb-0">Khanh Nguyen</p>
-                  <p class="text-light small mb-0"><i class="far fa-clock"></i> 1 min ago</p>
-                </div>
-                <div class="card-body">
-                  <p class="mb-0">
-                    You just need to create a chat. Then enter a message and send it!
-                    I hope you like this! ^^
-                  </p>
-                </div>
-              </div>
-            </li>
+            <div class="d-flex flex-column justify-content-center align-items-center mb-2">
+              <img src="/img/message_emty.png" alt="Message Emty!" width="410" class="mt-1">
+              <p class="text-center mt-2">Let's create a chat!</p>
+            </div>
             {{/if}}
-
             <li id="firts-element"></li>
-            {{!-- <li class="d-flex justify-content-between mb-4">
-              <div class="card mask-custom w-100">
-                <div class="card-header d-flex justify-content-between p-3"
-                  style="border-bottom: 1px solid rgba(255,255,255,.3);">
-                  <p class="fw-bold mb-0">Lara Croft</p>
-                  <p class="text-light small mb-0"><i class="far fa-clock"></i> 13 mins ago</p>
-                </div>
-                <div class="card-body">
-                  <p class="mb-0">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                    laudantium.
-                  </p>
-                </div>
-              </div>
-              <img
-                src="https://scontent.fdad1-4.fna.fbcdn.net/v/t39.30808-6/323870062_921503352354013_4582459388668646145_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=ynUzNDc11BUAX86weUU&_nc_ht=scontent.fdad1-4.fna&oh=00_AfAcixFx3ikoyPCcQtYn1-aImEff9-aHpjQ4rbheZeg4Bg&oe=63F7E6AF"
-                alt="avatar" class="rounded-circle d-flex align-self-start ms-3 shadow-1-strong" width="60">
-            </li>
-            <li class="d-flex justify-content-between mb-4">
-              <img
-                src="https://scontent.fdad1-4.fna.fbcdn.net/v/t39.30808-6/323870062_921503352354013_4582459388668646145_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=ynUzNDc11BUAX86weUU&_nc_ht=scontent.fdad1-4.fna&oh=00_AfAcixFx3ikoyPCcQtYn1-aImEff9-aHpjQ4rbheZeg4Bg&oe=63F7E6AF"
-                alt="avatar" class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60">
-              <div class="card mask-custom">
-                <div class="card-header d-flex justify-content-between p-3"
-                  style="border-bottom: 1px solid rgba(255,255,255,.3);">
-                  <p class="fw-bold mb-0">Brad Pitt</p>
-                  <p class="text-light small mb-0"><i class="far fa-clock"></i> 10 mins ago</p>
-                </div>
-                <div class="card-body">
-                  <p class="mb-0">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                    labore et dolore magna aliqua.
-                  </p>
-                </div>
-              </div>
-            </li> --}}
           </ul>
         </div>
         <div class="mb-3 position-static" method="post" action="">
@@ -327,76 +123,13 @@
             <textarea id="message" class="form-control" rows="4" name="message" required></textarea>
           </div>
           <button type="submit" onclick="handleSubmitMessage()"
-            class="btn btn-light btn-lg btn-rounded float-end mt-2">Send</button>
+            class="btn btn-light btn-lg btn-rounded float-end mt-2"><i class="fas fa-send-o"
+              style="color: #f5576c;"></i></button>
         </div>
       </div>
-
     </div>
-
   </div>
 </section>
-{{!--
-<script src="https://cdn.tiny.cloud/1/pv4u0k34bs31bsytn7nfxt6dlxukza2y6339kygcb4mt4kym/tinymce/6/tinymce.min.js"
-  referrerpolicy="origin"></script>
-<script>
-  tinymce.init({
-    selector: "#message",
-    plugins: "emoticons autoresize",
-    toolbar: "emoticons",
-    toolbar_location: "bottom",
-    menubar: false,
-    statusbar: false
-  });
-</script> --}}
 
 <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-<script>
-  const socket = io("http://localhost:80/websocket")
-  const text = document.getElementById('message')
-  const messages = document.getElementById('messages')
-  const firtsElement = document.getElementById('firts-element')
-  function addSession(s) {
-    sessionStorage.setItem("s", s);
-  }
-  const conversationId = sessionStorage.getItem("s");
-  const handleSubmitMessage = (conversation, senderId, message) => {
-    socket.emit('message', {
-      conversation: conversationId,
-      senderId: userId,
-      message: text.value
-    })
-  }
-
-  socket.on('message', (data) => {
-    handleNewMessage(data.message, data.senderId)
-    cleanMessage(message)
-  })
-
-  const handleNewMessage = (message, senderId) => {
-    buildNewMessage(message, senderId)
-  }
-
-  const buildNewMessage = (message, senderId) => {
-    const html = `<li class="d-flex justify-content-between mb-4">
-              <div class="card mask-custom w-100">
-                <div class="card-header d-flex justify-content-between p-3"
-                  style="border-bottom: 1px solid rgba(255,255,255,.3);">
-                  <p class="fw-bold mb-0">User ID: ${senderId}</p>
-                  <p class="text-light small mb-0"><i class="far fa-clock"></i> 1 min ago</p>
-                </div>
-                <div class="card-body">
-                  <p class="mb-0">
-                    ${message}
-                  </p>
-                </div>
-              </div>
-              <img src="https://scontent.fdad1-4.fna.fbcdn.net/v/t39.30808-6/323870062_921503352354013_4582459388668646145_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=ynUzNDc11BUAX86weUU&_nc_ht=scontent.fdad1-4.fna&oh=00_AfAcixFx3ikoyPCcQtYn1-aImEff9-aHpjQ4rbheZeg4Bg&oe=63F7E6AF" alt="avatar"
-                class="rounded-circle d-flex align-self-start ms-3 shadow-1-strong" width="60">
-            </li>`
-    return firtsElement.insertAdjacentHTML('beforeend', html)
-  }
-
-  const cleanMessage = (message) => {
-    return message.value = '';
-  }
-</script>
+<script src="/js/chat.js"></script>

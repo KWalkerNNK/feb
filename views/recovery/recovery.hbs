@@ -1,0 +1,48 @@
+<title>Recovery</title>
+<link rel='stylesheet' href='/css/recovery.css' />
+<link
+  rel='stylesheet'
+  href='https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap'
+/>
+
+<div class='wrapper'>
+  <div class='_container'>
+    <div class='ellipse'></div>
+    <div class='form'>
+      <div class='form__content form-content'>
+        <h3 class='form__title'>What is your code?</h3>
+        <p class='form__subtitle'>Please enter your CODE in this box, let us
+          check!</p>
+        <form
+          id='form'
+          method='post'
+          action='/forgot/verify'
+          class='form__form-box form-box'
+        >
+          <div class='form-box__input-box input-box'>
+            <input type='text' name='code' placeholder='Eg. 123456' />
+          </div>
+          <div onclick='onSubmit()' class='form-box__btn-box btn-box'>
+            <button type='submit'>Submit</button>
+          </div>
+        </form>
+        <div class='form__rectangle form-rectangle'>
+          <div class='form-rectangle__content'>
+            <h3 class='form-rectangle__title'>Note</h3>
+            <p class='form-rectangle__subtitle'>If you have already remembered
+              your password, please return to the
+              <a href='/auth/login' class='link'>Login page</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function onSubmit() { const email = sessionStorage.getItem('email'); const
+  form = document.getElementById("form").setAttribute("action",
+  `/forgot/verify/${email}`);
+  {{!setInterval(sessionStorage.clear(), 180000);}}
+  }
+</script>

@@ -4,8 +4,9 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import entities from './database/database.entities';
-import { HomeModule } from './home/home.module';
 import { GroupModule } from './group/group.module';
+import { RecoveryModule } from './recovery/recovery.module';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
@@ -14,7 +15,6 @@ import { GroupModule } from './group/group.module';
       isGlobal: true,
     }),
     AuthModule,
-    HomeModule,
     ChatModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -27,8 +27,9 @@ import { GroupModule } from './group/group.module';
       synchronize: true,
     }),
     GroupModule,
+    RecoveryModule,
+    ProfileModule,
   ],
-  controllers: [],
   providers: [],
 })
 export class AppModule {}

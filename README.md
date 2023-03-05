@@ -7,35 +7,57 @@
 
 ## ROUTES
 
-Describe some routes
+Describe some routes that have not been used but have already been created
 
-| METHOD | LINK |
-| ------ | ------ |
-| GET | [http://localhost:3000/auth/login][Login] |
-| GET | [http://localhost:3000/auth/register][Register] |
-| GET | [http://localhost:3000/chat/1][Chat] |
-| GET | [http://localhost:3000/chat/messages?conversation-id=1][Show all messages by conversation] |
-| GET | [http://localhost:3000/chat/messages/find?conversation-id=1&limit=5][Get messages by conversation but limit message display. For example limit = 5, get the last 5 messages] |
-| POST | [http://localhost:3000/group/create/1][Create a conversation, with id = 1 is an user id, title ="New Conversation" is a name conversation] |
+| METHOD | LINK | DETAILED DESCRIPTION |
+| ------ | ------ | ------ |
+| GET | [http://localhost:3000/chat/messages?conversation-id=1] | Show all messages by conversation |
+| GET | [http://localhost:3000/chat/messages/find?conversation-id=1&limit=5] | Get messages by conversation but limit message display. For example limit = 5, get the last 5 messages |
 
 
 ## IMAGES
 Register
-![Register](./plugins/Screenshot%20Register.png)
+
+![Register](./plugins/Register.png)
+
 
 Login
-![Login](./plugins/Screenshot%20Login.png)
 
-Chat I
-![Chat](./plugins/Screenshot%20Feb.png)
+![Login](./plugins/Login.png)
 
-Chat II
-![Chat](./plugins/Screenshot%20Feb%20II.png)
+
+Recovery
+
+![Recovery](./plugins/Recovery.png)
+
+
+Mailer
+
+![Mailer](./plugins/Mailer.png)
+
+
+Chat
+
+![Chat](./plugins/Chat.png)
+
+
+Profile
+
+![Profile](./plugins/Profile.png)
+
+
+Edit My Info
+
+![Edit My Info](./plugins/EditMyInfo.png)
 
 
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+
+## Description
+
+[K-Walker](https://www.facebook.com/KWalkerNNK) Please message me if you have any questions.
 
 ## Installation
 

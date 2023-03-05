@@ -7,7 +7,7 @@ import {
   ParseIntPipe,
   Render,
 } from '@nestjs/common';
-import { Param } from '@nestjs/common/decorators';
+import { Param, Req } from '@nestjs/common/decorators';
 import { Roles } from '../auth/decorators/decorator.index';
 import { JwtGuard } from '../auth/guard/guard.jwt';
 import { Role } from '../role/role';
@@ -45,7 +45,8 @@ export class ChatController {
   @Render('chat/index')
   async getConversations(
     @Param('slug', ParseIntPipe) slug: number,
+    @Req() req,
   ): Promise<Object> {
-    return await this.chatService.getConversations(slug);
+    return await this.chatService.getConversations(slug, req);
   }
 }

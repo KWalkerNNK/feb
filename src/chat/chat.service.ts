@@ -1,7 +1,7 @@
 import { Message } from '../database/entity/entity.message';
 import { User } from '../database/entity/entity.user';
 import { Conversation } from '../database/entity/entity.conversation';
-import { Injectable, Res } from '@nestjs/common';
+import { Injectable, Res, Req } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -15,7 +15,7 @@ export class ChatService {
     private readonly messageRepository: Repository<Message>,
   ) {}
 
-  async getConversations(id: number): Promise<Object> {
+  async getConversations(id: number, @Req() req): Promise<Object> {
     const conversation = await this.conversationRepository.find();
     const conversationExists = await this.conversationRepository.findOneBy({
       id,
@@ -44,7 +44,8 @@ export class ChatService {
         },
       });
     }
-    return { conversation, messages };
+    let currentId = await req.cookies.id;
+    return { conversation, messages, currentId };
   }
 
   async findMessagesByConversation(id: number): Promise<Object> {

@@ -45,6 +45,14 @@ export class AuthService {
         maxAge: 60 * 1000 * 60 * 24 * 14,
         httpOnly: false,
       });
+      res.cookie('email', userExists.email, {
+        maxAge: 60 * 1000 * 60 * 24 * 14,
+        httpOnly: false,
+      });
+      res.cookie('fullName', userExists.fullName, {
+        maxAge: 60 * 1000 * 60 * 24 * 14,
+        httpOnly: false,
+      });
       return res.redirect('/chat/1');
     } catch (err) {
       throw err;
@@ -68,6 +76,14 @@ export class AuthService {
         //   httpOnly: false,
         // });
         res.cookie('id', userExists.id, {
+          maxAge: 60 * 1000 * 60 * 24 * 14,
+          httpOnly: false,
+        });
+        res.cookie('email', userExists.email, {
+          maxAge: 60 * 1000 * 60 * 24 * 14,
+          httpOnly: false,
+        });
+        res.cookie('fullName', userExists.fullName, {
           maxAge: 60 * 1000 * 60 * 24 * 14,
           httpOnly: false,
         });

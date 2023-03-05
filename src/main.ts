@@ -12,7 +12,19 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
+
   hbs.registerPartials(join(__dirname, '..', '/views/partials'));
+  hbs.registerHelper(
+    'compare',
+    function (id: number, otherId: number, options: any) {
+      if (id == otherId) {
+        return options.fn(this);
+      } else {
+        return options.inverse(this);
+      }
+    },
+  );
+
   app.set('view options', { layout: '/layouts/main' });
 
   app.useGlobalPipes(

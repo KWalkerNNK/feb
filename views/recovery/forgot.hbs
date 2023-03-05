@@ -1,0 +1,45 @@
+<title>Forgot</title>
+<link rel='stylesheet' href='/css/recovery.css' />
+<link
+  rel='stylesheet'
+  href='https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap'
+/>
+
+<div class='wrapper'>
+  <div class='_container'>
+    <div class='ellipse'></div>
+    <div class='form'>
+      <div class='form__content form-content'>
+        <h3 class='form__title'>Oh, we meet again!</h3>
+        <p class='form__subtitle'>Please enter your Email address in this box,
+          let us check!</p>
+        <form method='post' action='/forgot' class='form__form-box form-box'>
+          <div class='form-box__input-box input-box'>
+            <input
+              id='email'
+              type='email'
+              name='email'
+              placeholder='Eg. my_email@gmail.com'
+            />
+          </div>
+          <div onclick='onSubmit()' class='form-box__btn-box btn-box'>
+            <button type='submit'>Submit</button>
+          </div>
+        </form>
+        <div class='form__rectangle form-rectangle'>
+          <div class='form-rectangle__content'>
+            <h3 class='form-rectangle__title'>Note</h3>
+            <p class='form-rectangle__subtitle'>Please check the code we send in
+              your Gmail. Or go to the login page
+              <a href='/auth/login' class='link'>here</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function onSubmit() { const email = document.getElementById('email').value;
+  sessionStorage.setItem("email", email); }
+</script>
