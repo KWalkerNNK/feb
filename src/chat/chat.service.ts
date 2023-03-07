@@ -28,11 +28,11 @@ export class ChatService {
       },
     });
     let messages: Object;
-    const skip = countMessages - 10 > 1 ? countMessages - 10 : 0;
+    const skip = countMessages - 20 > 0 ? countMessages - 20 : 0;
     if (conversationExists) {
       messages = await this.messageRepository.find({
         skip,
-        take: 10,
+        take: 20,
         relations: {
           conversation: true,
           senderId: true,

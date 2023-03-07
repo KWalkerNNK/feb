@@ -11,6 +11,7 @@ import { Repository } from 'typeorm';
 import { Server } from 'socket.io';
 
 @WebSocketGateway(80, { namespace: 'websocket' })
+// @WebSocketGateway({ namespace: 'websocket', server: 'https://ad76-113-165-32-149.ap.ngrok.io' })
 export class ChatGateway {
   constructor(
     @InjectRepository(Message)

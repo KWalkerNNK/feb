@@ -5,10 +5,10 @@ cookies.forEach(function (cookie) {
   const key = cookieParts[0].trim();
   switch (key) {
     case 'id':
-      userId = cookieParts[1].trim();
+      userId = decodeURIComponent(cookieParts[1].trim());
       break;
     case 'email':
-      email = cookieParts[1].trim();
+      email = decodeURIComponent(cookieParts[1].trim());
       break;
     default:
       fullName = decodeURIComponent(cookieParts[1].trim());

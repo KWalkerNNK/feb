@@ -1,3 +1,10 @@
+window.onload = function() {
+  let s = sessionStorage.getItem('s');
+  if (!s) {
+    sessionStorage.setItem('s', 1);
+  }
+};
+
 // Get cookies
 let userId, email, fullName;
 const cookies = document.cookie.split(';');
@@ -6,10 +13,10 @@ cookies.forEach(function (cookie) {
   const key = cookieParts[0].trim();
   switch (key) {
     case 'id':
-      userId = cookieParts[1].trim();
+      userId = decodeURIComponent(cookieParts[1].trim());
       break;
     case 'email':
-      email = cookieParts[1].trim();
+      email = decodeURIComponent(cookieParts[1].trim());
       break;
     default:
       fullName = decodeURIComponent(cookieParts[1].trim());
@@ -31,6 +38,7 @@ $('create-group').submit(function (event) {
 });
 
 // Socket container
+// const socket = io('https://ad76-113-165-32-149.ap.ngrok.io/websocket');
 const socket = io('http://localhost:80/websocket');
 const text = document.getElementById('message');
 const messages = document.getElementById('messages');
@@ -71,12 +79,12 @@ const buildNewMessage = (message, senderId, currentFullName) => {
                   </p>
                 </div>
               </div>
-              <img src="/img/user.png" alt="avatar"
-                class="rounded-circle d-flex align-self-start ms-3 shadow-1-strong" width="60">
+              <a href="/profile/${senderId}"><img src="/img/user.png" alt="avatar"
+                class="rounded-circle d-flex align-self-start ms-3 shadow-1-strong" width="60"></a>
             </li>`;
   const otherUser = `
     <li class="d-flex justify-content-between mb-4">
-              <a href="/profile/{{this.senderId.id}}"><img src="/img/user.png"
+              <a href="/profile/${senderId}"><img src="/img/user.png"
                   alt="avatar" class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60"></a>
               <div class="card mask-custom w-100">
                 <div class="card-header d-flex justify-content-between p-3"
