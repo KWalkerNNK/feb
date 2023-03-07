@@ -11,8 +11,8 @@ Describe some routes that have not been used but have already been created
 
 | METHOD | LINK | DETAILED DESCRIPTION |
 | ------ | ------ | ------ |
-| GET | [http://localhost:3000/chat/messages?conversation-id=1] | Show all messages by conversation |
-| GET | [http://localhost:3000/chat/messages/find?conversation-id=1&limit=5] | Get messages by conversation but limit message display. For example limit = 5, get the last 5 messages |
+| GET | http://localhost:3000/chat/messages?conversation-id=1 | Show all messages by conversation |
+| GET | http://localhost:3000/chat/messages/find?conversation-id=1&limit=5 | Get messages by conversation but limit message display. For example limit = 5, get the last 5 messages |
 
 
 ## IMAGES
@@ -55,7 +55,7 @@ Edit My Info
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Description
+## Information
 
 [K-Walker](https://www.facebook.com/KWalkerNNK) Please message me if you have any questions.
 

@@ -14,11 +14,11 @@ export class AuthService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly jwt: JwtService,
-  ) {}
+  ) { }
 
-  registerGet(): void {}
+  registerGet(): void { }
 
-  loginGet(): void {}
+  loginGet(): void { }
 
   async register(
     user: UserRegisterDto,
@@ -34,22 +34,22 @@ export class AuthService {
       const hash = await bcrypt.hash(password, SALT_ROUNDS);
       user.password = hash;
 
-      await this.userRepository.save(user);
+      const newUser = await this.userRepository.save(user);
 
       // const value = await this.signToken(user.id, user.email, user.role);
       // res.cookie('accessToken', value, {
       //   maxAge: 60 * 1000 * 60 * 24 * 14,
       //   httpOnly: false,
       // });
-      res.cookie('id', user.id, {
+      res.cookie('id', newUser.id, {
         maxAge: 60 * 1000 * 60 * 24 * 14,
         httpOnly: false,
       });
-      res.cookie('email', userExists.email, {
+      res.cookie('email', newUser.email, {
         maxAge: 60 * 1000 * 60 * 24 * 14,
         httpOnly: false,
       });
-      res.cookie('fullName', userExists.fullName, {
+      res.cookie('fullName', newUser.fullName, {
         maxAge: 60 * 1000 * 60 * 24 * 14,
         httpOnly: false,
       });
