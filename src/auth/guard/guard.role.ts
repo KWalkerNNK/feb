@@ -26,10 +26,12 @@ export class RolesGuard implements CanActivate {
       return true;
     }
 
-    const token = context
-      .switchToHttp()
-      .getRequest()
-      .headers.authorization.replace('Bearer ', '');
+    const authorizationHeader = context.switchToHttp().getRequest()
+      .headers.authorization;
+    if (!authorizationHeader) {
+      throw new HttpException('Unauthorized', 401);
+    }
+    const token = authorizationHeader.replace('Bearer ', '');
 
     const User: any = await this.jwtService.decode(token);
 

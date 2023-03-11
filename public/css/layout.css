@@ -8,3 +8,22 @@
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background: linear-gradient(to bottom right, rgba(252, 203, 144, 1), rgba(213, 126, 235, 1))
 }
+
+@media only screen and (max-width: 600px) {
+    .conversation {
+        display: block;
+        cursor: pointer;
+    }
+
+    .messages {
+        display: none;
+    }
+
+    .conversation.hidden {
+        display: none;
+    }
+
+    .messages.visible {
+        display: block;
+    }
+}

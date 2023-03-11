@@ -1,7 +1,6 @@
 import {
   Controller,
   Get,
-  Res,
   UseGuards,
   Query,
   ParseIntPipe,
@@ -37,6 +36,15 @@ export class ChatController {
     @Query('conversation-id', ParseIntPipe) conversationId: number,
   ): Promise<Object> {
     return await this.chatService.findMessagesByConversation(conversationId);
+  }
+
+  @Get('conversation')
+  @Render('chat/index')
+  async getConversationByTitle(
+    @Query('title') title: string,
+    @Req() req,
+  ): Promise<Object> {
+    return await this.chatService.getConversationByTitle(title, req);
   }
 
   // @UseGuards(JwtGuard)

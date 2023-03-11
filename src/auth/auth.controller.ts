@@ -31,4 +31,25 @@ export class AuthController {
   async login(@Body() user: UserLoginDto, @Res() res): Promise<Object> {
     return this.authService.login(user, res);
   }
+
+  @Post('refresh')
+  async refresh(@Body('refreshToken') refreshToken: string) {
+    const payload = await this.authService.verifyRefreshToken(refreshToken);
+    const access_token = await this.authService.signToken(
+      payload.id,
+      payload.email,
+      payload.role,
+      '7d',
+    );
+    const refresh_token = await this.authService.signToken(
+      payload.id,
+      payload.email,
+      payload.role,
+      '14d',
+    );
+    return {
+      access_token,
+      refresh_token,
+    };
+  }
 }

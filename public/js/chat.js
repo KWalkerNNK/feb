@@ -1,12 +1,34 @@
-window.onload = function() {
+//Set session when clicked conversation
+function addSession(s) {
+  sessionStorage.setItem('s', s);
+}
+
+var conversationId;
+
+window.onload = function () {
   let s = sessionStorage.getItem('s');
   if (!s) {
     sessionStorage.setItem('s', 1);
+    s = 1;
   }
+  let link = document.getElementById('add-session');
+  if (link) {
+    let href = link.getAttribute('href');
+    let id = href.split('/').pop();
+    if (s && id) {
+      addSession(id);
+    }
+  }
+  conversationId = sessionStorage.getItem('s');
 };
+
+
 
 // Get cookies
 let userId, email, fullName;
+if (document.cookie.length === 0) {
+  window.location.href = '/auth/login';
+}
 const cookies = document.cookie.split(';');
 cookies.forEach(function (cookie) {
   const cookieParts = cookie.split('=');
@@ -23,30 +45,108 @@ cookies.forEach(function (cookie) {
   }
 });
 
-// Create the post object
-const createGroup = (document.getElementById(
-  'create-group',
-).action = `/group/create/${userId}`);
-$('create-group').submit(function (event) {
-  event.preventDefault();
+// Post | Create Conversation
+const conversationList = document.getElementById('conversation-list');
+const lastConversationLink = $('ul#conversation-list li:last-child a');
+if (lastConversationLink.length > 0) {
+  const lastConversationId = parseInt($('ul#conversation-list li:last-child a').attr('onclick').match(/\d+/)[0]);
+  const createGroupForm = document.getElementById('create-group');
+  createGroupForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const formData = new FormData(createGroupForm);
+    const conversationTitle = formData.get('title');
+    scrollToActive(conversationList);
+    // Call the server-side API to create the conversation
+    $.ajax({
+      url: `/group/create/${userId}`,
+      type: 'POST',
+      data: {
+        title: conversationTitle,
+      },
+      success: function (data) {
+        // Add the new conversation to the list without reloading the page
+        const newConversation = `
+        <li class="p-2 border-bottom" style="border-bottom: 1px solid rgba(255,255,255,.3) !important;">
+          <a onclick="addSession(${lastConversationId + 1})" href="${lastConversationId + 1}" class="d-flex justify-content-between link-light">
+            <div class="d-flex flex-row">
+              <img src="/img/group.webp" alt="avatar" class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
+              <div class="pt-1">
+                <p class="fw-bold mb-0">${conversationTitle}</p>
+                <p class="small text-white">Let's chat!</p>
+              </div>
+            </div>
+            <div class="pt-1">
+              <p class="small text-white mb-1 text-truncate" style="max-width: 180px;">Ngay bây giờ</p>
+              <span class="badge bg-danger float-end">1</span>
+            </div>
+          </a>
+        </li>
+      `;
+        $('#conversation-list').append(newConversation);
+      },
+      error: function (error) {
+        console.log(error);
+      }
+    });
+  });
+}
+else {
+  const createGroup = (document.getElementById(
+    'create-group',
+  ).action = `/group/create/${userId}`);
+  $('create-group').submit(function (event) {
+    event.preventDefault();
+  });
+}
 
-  var $form = $(this),
-    term = $form.find("input[name='title']").val(),
-    url = $form.attr('action');
+if (window.innerWidth <= 600) {
+  const conversationClass = document.querySelector('.conversation');
+  const messagesClass = document.querySelector('.messages');
 
-  var posting = $.post(url, { s: term });
-});
+  conversationClass.addEventListener('click', (event) => {
+    conversationClass.classList.add('hidden');
+    messagesClass.classList.add('visible');
+    event.preventDefault();
+  });
+}
 
 // Socket container
-// const socket = io('https://ad76-113-165-32-149.ap.ngrok.io/websocket');
+// const socket = io('https://01bc-117-2-155-129.ap.ngrok.io/websocket');
 const socket = io('http://localhost:80/websocket');
 const text = document.getElementById('message');
 const messages = document.getElementById('messages');
 const firtsElement = document.getElementById('firts-element');
-function addSession(s) {
-  sessionStorage.setItem('s', s);
+const submitBtn = document.getElementById('submit-btn');
+
+scrollToActive(messages);
+
+// Catch event when clicked keydown
+if (text) {
+  text.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleSubmitMessage();
+      scrollToActive(messages);
+    }
+  });
+
+  submitBtn.addEventListener("click", function (event) {
+    event.preventDefault();
+    handleSubmitMessage();
+    scrollToActive(messages);
+  });
 }
-const conversationId = sessionStorage.getItem('s');
+
+//Scroll to active messages
+function scrollToActive(event) {
+  setTimeout(() => {
+    event.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end'
+    })
+  }, 500)
+}
+
 const handleSubmitMessage = (conversation, senderId, message, currentFullName) => {
   socket.emit('message', {
     conversation: conversationId,

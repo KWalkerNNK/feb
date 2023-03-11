@@ -6,42 +6,41 @@
       <div class="col-md-6 col-lg-5 col-xl-5 mb-4 mb-md-0">
         <h5 class="font-weight-bold mb-3 text-center text-white">Chat Together</h5>
         <div style="display: flex">
-          <div class="input-group">
+          <form class="input-group" action="/chat/conversation?q=">
             <div class="input-group-prepend">
-              <input type="text" class="form-control" placeholder="Search" aria-label="Search"
+              <input type="text" name="title" class="form-control" placeholder="Search" aria-label="Search"
                 aria-describedby="button-addon">
             </div>
             <div class="input-group-append">
-              <button type="button" class="btn btn-outline-dark">
+              <button type="submit" class="btn btn-outline-dark">
                 <i class="fas fa-search"></i>
               </button>
             </div>
-          </div>
+          </form>
           <form class="input-group" id="create-group" action="/group/create/" method="post">
             <div class="input-group-prepend">
               <input type="text" class="form-control" name="title" placeholder="Create Group" aria-label="Create Group"
                 aria-describedby="button-addon">
             </div>
             <div class="input-group-append">
-              <button type="submit" class="btn btn-outline-success">
+              <button type="submit" class="btn btn-outline-dark">
                 <i class="fas fa-gear"></i>
               </button>
             </div>
           </form>
         </div>
-        <div class="card mask-custom">
+        <div class="card mask-custom mt-3 conversation">
           <div class="card rounded example-1 scrollbar-ripe-malinka gradient-custom">
             <div class="card-body">
-              <ul class="list-unstyled mb-0" id="members">
+              <ul class="list-unstyled mb-0" id="conversation-list">
                 {{#if conversation}}
                 {{#each conversation}}
                 <li class="p-2 border-bottom" style="border-bottom: 1px solid rgba(255,255,255,.3) !important;">
                   <a onclick="addSession({{this.id}})" href="{{this.id}}"
                     class="d-flex justify-content-between link-light">
                     <div class="d-flex flex-row">
-                      <img
-                        src="/img/group.webp"
-                        alt="avatar" class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
+                      <img src="/img/group.webp" alt="avatar"
+                        class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
                       <div class="pt-1">
                         <p class="fw-bold mb-0">{{this.title}}</p>
                         <p class="small text-white">{{this.message}}Message</p>
@@ -54,6 +53,26 @@
                   </a>
                 </li>
                 {{/each}}
+                {{else if conversationUnique}}
+                {{#with conversationUnique}}
+                <li class="p-2 border-bottom" style="border-bottom: 1px solid rgba(255,255,255,.3) !important;">
+                  <a id="add-session" onclick="addSession({{this.id}})" href="{{this.id}}"
+                    class="d-flex justify-content-between link-light">
+                    <div class="d-flex flex-row">
+                      <img src="/img/group.webp" alt="avatar"
+                        class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
+                      <div class="pt-1">
+                        <p class="fw-bold mb-0">{{this.title}}</p>
+                        <p class="small text-white">{{this.message}}Message</p>
+                      </div>
+                    </div>
+                    <div class="pt-1">
+                      <p class="small text-white mb-1 text-truncate" style="max-width: 180px;">{{this.CreatedAt}}</p>
+                      {{!-- <span class="badge bg-danger float-end">1</span> --}}
+                    </div>
+                  </a>
+                </li>
+                {{/with}}
                 {{else}}
                 <h1>Let's create a new chat group!</h1><br />
                 <h2>🚀🚀🚀</h2>
@@ -64,7 +83,7 @@
         </div>
       </div>
       <div class="col-md-6 col-lg-7 col-xl-7">
-        <div class="rounded example-1 scrollbar-ripe-malinka gradient-custom">
+        <div id="scrollbar-messages" class="rounded example-1 scrollbar-ripe-malinka gradient-custom messages">
           <ul class="list-unstyled text-white" id="messages">
             {{#if messages}}
             {{#each messages}}
@@ -84,14 +103,13 @@
                   </p>
                 </div>
               </div>
-              <a href="/profile/{{this.senderId.id}}"><img
-                  src="/img/user.png" alt="avatar"
+              <a href="/profile/{{this.senderId.id}}"><img src="/img/user.png" alt="avatar"
                   class="rounded-circle d-flex align-self-start ms-3 shadow-1-strong" width="60"></a>
             </li>
             {{else}}
             <li class="d-flex justify-content-between mb-4">
-              <a href="/profile/{{this.senderId.id}}"><img src="/img/user.png"
-                  alt="avatar" class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60"></a>
+              <a href="/profile/{{this.senderId.id}}"><img src="/img/user.png" alt="avatar"
+                  class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60"></a>
               <div class="card mask-custom w-100">
                 <div class="card-header d-flex justify-content-between p-3"
                   style="border-bottom: 1px solid rgba(255,255,255,.3);">
@@ -117,17 +135,26 @@
             <li id="firts-element"></li>
           </ul>
         </div>
-        {{#if conversation}}
+        {{#with conversation}}
         <div class="mb-3 position-static" method="post" action="">
           <div class="form-outline form-white">
             <label class="form-label text-white" for="textAreaExample3">Message</label>
-            <textarea id="message" class="form-control" rows="4" name="message" required></textarea>
+            <textarea id="message" class="form-control" rows="3" name="message" required></textarea>
           </div>
-          <button type="submit" onclick="handleSubmitMessage()"
-            class="btn btn-light btn-lg btn-rounded float-end mt-2"><i class="fas fa-send-o"
-              style="color: #f5576c;"></i></button>
+          <button id="submit-btn" type="submit" class="btn btn-light btn-lg btn-rounded float-end mt-2"><i
+              class="fas fa-send-o" style="color: #f5576c;"></i></button>
         </div>
-        {{/if}}
+        {{/with}}
+        {{#with conversationUnique}}
+        <div class="mb-3 position-static" method="post" action="">
+          <div class="form-outline form-white">
+            <label class="form-label text-white" for="textAreaExample3">Message</label>
+            <textarea id="message" class="form-control" rows="3" name="message" required></textarea>
+          </div>
+          <button id="submit-btn" type="submit" class="btn btn-light btn-lg btn-rounded float-end mt-2"><i
+              class="fas fa-send-o" style="color: #f5576c;"></i></button>
+        </div>
+        {{/with}}
       </div>
     </div>
   </div>

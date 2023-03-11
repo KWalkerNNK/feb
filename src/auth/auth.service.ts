@@ -1,4 +1,4 @@
-import { HttpException, Injectable, Res } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Res } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -14,11 +14,11 @@ export class AuthService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly jwt: JwtService,
-  ) { }
+  ) {}
 
-  registerGet(): void { }
+  registerGet(): void {}
 
-  loginGet(): void { }
+  loginGet(): void {}
 
   async register(
     user: UserRegisterDto,
@@ -36,11 +36,6 @@ export class AuthService {
 
       const newUser = await this.userRepository.save(user);
 
-      // const value = await this.signToken(user.id, user.email, user.role);
-      // res.cookie('accessToken', value, {
-      //   maxAge: 60 * 1000 * 60 * 24 * 14,
-      //   httpOnly: false,
-      // });
       res.cookie('id', newUser.id, {
         maxAge: 60 * 1000 * 60 * 24 * 14,
         httpOnly: false,
@@ -66,15 +61,6 @@ export class AuthService {
     if (userExists) {
       const isMatch = await bcrypt.compare(user.password, userExists.password);
       if (isMatch) {
-        // const value = await this.signToken(
-        //   userExists.id,
-        //   userExists.email,
-        //   userExists.role,
-        // );
-        // res.cookie('accessToken', value, {
-        //   maxAge: 60 * 1000 * 60 * 24 * 14,
-        //   httpOnly: false,
-        // });
         res.cookie('id', userExists.id, {
           maxAge: 60 * 1000 * 60 * 24 * 14,
           httpOnly: false,
@@ -87,6 +73,22 @@ export class AuthService {
           maxAge: 60 * 1000 * 60 * 24 * 14,
           httpOnly: false,
         });
+        // res.status(200).json({
+        //   access_token: await this.signToken(
+        //     userExists.id,
+        //     userExists.email,
+        //     userExists.role,
+        //     '7d',
+        //   ),
+        //   refresh_token: await this.signToken(
+        //     userExists.id,
+        //     userExists.email,
+        //     userExists.role,
+        //     '14d',
+        //   ),
+        //   token_type: 'bearer',
+        //   redirect_uri: '/chat/1',
+        // });
         return res.redirect('/chat/1');
       }
       throw new HttpException(MESSAGE.WRONG_PASSWORD, 407);
@@ -98,18 +100,33 @@ export class AuthService {
     userId: number,
     email: string,
     role?: string,
-  ): Promise<{ access_token: string }> {
+    day?: string,
+  ): Promise<{ token: string }> {
     const payload = {
       id: userId,
       email,
       role,
     };
     const token = await this.jwt.signAsync(payload, {
-      expiresIn: '14d',
+      expiresIn: day ? day : '14d',
       secret: SECRET_KEY,
     });
     return {
-      access_token: token,
+      token,
     };
+  }
+
+  async verifyRefreshToken(
+    refreshToken: string,
+  ): Promise<{ id: number; email: string; role: string }> {
+    try {
+      const payload = await this.jwt.verifyAsync(refreshToken, {
+        secret: SECRET_KEY,
+      });
+      return payload;
+    } catch (err) {
+      console.error(err);
+      throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
+    }
   }
 }

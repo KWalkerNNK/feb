@@ -13,6 +13,7 @@ Describe some routes that have not been used but have already been created
 | ------ | ------ | ------ |
 | GET | http://localhost:3000/chat/messages?conversation-id=1 | Show all messages by conversation |
 | GET | http://localhost:3000/chat/messages/find?conversation-id=1&limit=5 | Get messages by conversation but limit message display. For example limit = 5, get the last 5 messages |
+| POST | http://localhost:3000/auth/refresh | Refesh Token |
 
 
 ## IMAGES

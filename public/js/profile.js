@@ -1,4 +1,7 @@
 let userId, email, fullName;
+if (document.cookie.length === 0) {
+  window.location.href = '/auth/login';
+}
 const cookies = document.cookie.split(';');
 cookies.forEach(function (cookie) {
   const cookieParts = cookie.split('=');
